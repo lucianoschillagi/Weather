@@ -53,6 +53,7 @@ class WeatherViewController: UIViewController {
 		// MARK: summary info
 		DarkSky.sharedInstance().getSummaryInfo { (success, summary, error) in
 			
+			print(success)
 			performUIUpdatesOnMain {
 				if success {
 					self.summary.isHidden = false
