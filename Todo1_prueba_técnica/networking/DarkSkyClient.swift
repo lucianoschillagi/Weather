@@ -25,21 +25,21 @@ class DarkSky : NSObject {
 	
 	let session = URLSession.shared
 	
-
 	//*****************************************************************
 	// MARK: - Initializers
 	//*****************************************************************
 	
-	override init() {
-		super.init()
+	override init() { 
+
+		super.init() 
 	}
 
 	//*****************************************************************
 	// MARK: - Netwoking Methods 🚀
 	//*****************************************************************
-	
+
+	// task: --
 	func getSummaryInfo(_ completionHandlerForGetSummaryInfo: @escaping ( _ success: Bool, _ summary: String?, _  errorString: String?) -> Void) {
-		
 		
 		// Step-1: Build the URL
 		let request = NSMutableURLRequest(url: url())
@@ -47,15 +47,12 @@ class DarkSky : NSObject {
 		// Step-2: Make the request
 		let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
 			
-			
-			/// ERROR ///////////////////////////////////////////////////////////////////////////////////////////////////////
 			// if an error occurs, print it
 			func displayError(_ error: String) {
 				print(error)
 				
 			}
 			
-			/// GUARD ///////////////////////////////////////////////////////////////////////////////////////////////////////
 			/* GUARD: Was there an error? */
 			guard (error == nil) else {
 				displayError("There was an error with your request: \(error!)")
@@ -74,23 +71,21 @@ class DarkSky : NSObject {
 				return
 			}
 			
-			
-			
-			/// PARSE THE DATA ///////////////////////////////////////////////////////////////////////////////////////////////
+			// parse the data
 			let parsedResult: [String:AnyObject]!
 			do {
-				parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
+				parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:AnyObject]
 			} catch {
 				displayError("Could not parse the data as JSON: '\(data)'")
 				return
 			}
 			
 			
-			//// CHECK and EXTRACT DESIRE VAULES //////////////////////////////////////////////////////////////////////////////
+			/// check and extract the desire values
 			
 			/* GUARD: Did Dark Sky return a parsedResult (stat != ok)? */
 			guard let currently = parsedResult[Constants.JSONKeys.Currently] as? [String:AnyObject]  else {
-				displayError("Dark Sky API returned an error. See error code and message in \(parsedResult)")
+				displayError("Dark Sky API returned an error. See error code and message in \(String(describing: parsedResult))")
 				return
 			}
 		
@@ -129,15 +124,12 @@ class DarkSky : NSObject {
 		// Step-2: Make the request
 		let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
 			
-			
-			/// ERROR ///////////////////////////////////////////////////////////////////////////////////////////////////////
 			// if an error occurs, print it
 			func displayError(_ error: String) {
 				print(error)
 				
 			}
-			
-			/// GUARD ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 			/* GUARD: Was there an error? */
 			guard (error == nil) else {
 				displayError("There was an error with your request: \(error!)")
@@ -157,8 +149,6 @@ class DarkSky : NSObject {
 			}
 			
 			
-			
-			/// PARSE THE DATA ///////////////////////////////////////////////////////////////////////////////////////////////
 			let parsedResult: [String:AnyObject]!
 			do {
 				parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
